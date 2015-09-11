@@ -27,16 +27,20 @@ const (
 	ArrayKind
 )
 
-func (k Kind) MarshalText() ([]byte, error) {
+func (k Kind) String() string {
 	switch k {
 	case IdentKind:
-		return nil, nil
+		return ""
 	case StructKind:
-		return []byte("struct"), nil
+		return "struct"
 	case ArrayKind:
-		return []byte("[]"), nil
+		return "[]"
 	}
-	return nil, nil
+	return ""
+}
+
+func (k Kind) MarshalText() ([]byte, error) {
+	return []byte(k.String()), nil
 }
 
 type Type struct {
