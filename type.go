@@ -8,15 +8,16 @@ import (
 )
 
 type File struct {
-	PackageName string
+	PackageName string `json:"package_name,omitempty"`
 	TypeDecls   []*TypeDecl
 	Doc         string `json:"doc,omitempty"`
 }
 
 type TypeDecl struct {
-	Name string
-	Type Type
-	Doc  string `json:"doc,omitempty"`
+	Name           string `json:"name,omitempty"`
+	Type           Type   `json:"type,omitempty"`
+	UnderlyingType string `json:"underlying_type,omitempty"`
+	Doc            string `json:"doc,omitempty"`
 }
 
 type Kind int
