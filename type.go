@@ -44,7 +44,7 @@ func (k Kind) MarshalText() ([]byte, error) {
 }
 
 type Type struct {
-	Kind   Kind
+	Kind   Kind     `json:"kind"`
 	Ident  string   `json:"ident,omitemtpy"`
 	Fields []*Field `json:"fields,omitempty"`
 }
