@@ -14,10 +14,9 @@ type File struct {
 }
 
 type TypeDecl struct {
-	Name           string `json:"name,omitempty"`
-	Type           Type   `json:"type,omitempty"`
-	UnderlyingType string `json:"underlying_type,omitempty"`
-	Doc            string `json:"doc,omitempty"`
+	Name string `json:"name,omitempty"`
+	Type Type   `json:"type,omitempty"`
+	Doc  string `json:"doc,omitempty"`
 }
 
 type Kind int
@@ -45,9 +44,24 @@ func (k Kind) MarshalText() ([]byte, error) {
 }
 
 type Type struct {
-	Kind   Kind     `json:"kind"`
-	Ident  string   `json:"ident,omitemtpy"`
-	Fields []*Field `json:"fields,omitempty"`
+	Kind   Kind                   `json:"kind"`
+	Ident  string                 `json:"ident,omitemtpy"`
+	Fields []*Field               `json:"fields,omitempty"`
+	Attrs  map[string]interface{} `json:"attr,omitempty"`
+}
+
+func (d *Type) Set(key string, value interface{}) {
+	if d.Attrs == nil {
+		d.Attrs = make(map[string]interface{})
+	}
+	d.Attrs[key] = value
+}
+
+func (d *Type) Get(key string) interface{} {
+	if d.Attrs == nil {
+		return nil
+	}
+	return d.Attrs[key]
 }
 
 type IdentType string
