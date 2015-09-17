@@ -13,6 +13,17 @@ type File struct {
 	Doc         string `json:"doc,omitempty"`
 }
 
+func (f *File) RemoveDecl(name string) *File {
+	file := *f
+	file.TypeDecls = nil
+	for _, decl := range f.TypeDecls {
+		if decl.Name != name {
+			file.TypeDecls = append(file.TypeDecls, decl)
+		}
+	}
+	return &file
+}
+
 type TypeDecl struct {
 	Name string `json:"name,omitempty"`
 	Type Type   `json:"type,omitempty"`
