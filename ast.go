@@ -49,5 +49,13 @@ func (f *Field) AST() *ast.Field {
 	return &ast.Field{
 		Names: []*ast.Ident{{Name: f.Name}},
 		Type:  f.Type.AST(),
+		Tag:   tag(f.Tag.String()),
 	}
+}
+
+func tag(value string) *ast.BasicLit {
+	if value == "" {
+		return nil
+	}
+	return &ast.BasicLit{Kind: token.STRING, Value: "`" + value + "`"}
 }

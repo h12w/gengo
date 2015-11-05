@@ -2,9 +2,11 @@ package gengo
 
 import (
 	"encoding/json"
+	"fmt"
 	"go/printer"
 	"go/token"
 	"io"
+	"strings"
 )
 
 type File struct {
@@ -85,6 +87,37 @@ type Field struct {
 }
 
 type Tag struct {
+	Parts []*TagPart
+}
+
+func (t *Tag) String() string {
+	ss := make([]string, len(t.Parts))
+	for i := range ss {
+		ss[i] = t.Parts[i].String()
+	}
+	return strings.Join(ss, " ")
+}
+
+type TagPart struct {
+	Encoding  string
+	Name      string
+	Type      string
+	Omitted   bool
+	OmitEmpty bool
+}
+
+func (p *TagPart) String() string {
+	if p.Encoding == "" {
+		return ""
+	}
+	segments := []string{p.Name}
+	if p.Type != "" {
+		segments = append(segments, p.Type)
+	}
+	if p.OmitEmpty {
+		segments = append(segments, "omitempty")
+	}
+	return fmt.Sprintf(`%s:"%s"`, p.Encoding, strings.Join(segments, ","))
 }
 
 func (f *File) Fprint(w io.Writer) error {
