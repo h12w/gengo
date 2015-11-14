@@ -91,6 +91,9 @@ type Tag struct {
 }
 
 func (t *Tag) String() string {
+	if t == nil {
+		return ""
+	}
 	ss := make([]string, len(t.Parts))
 	for i := range ss {
 		ss[i] = t.Parts[i].String()
