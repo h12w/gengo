@@ -10,9 +10,10 @@ import (
 )
 
 type File struct {
-	PackageName string `json:"package_name,omitempty"`
-	TypeDecls   []*TypeDecl
-	Doc         string `json:"doc,omitempty"`
+	PackageName string      `json:"package_name,omitempty"`
+	Imports     []*Import   `json:"imports,omitempty"`
+	TypeDecls   []*TypeDecl `json:"type_decls,omitempty"`
+	Doc         string      `json:"doc,omitempty"`
 }
 
 func (f *File) RemoveDecl(name string) *File {
@@ -24,6 +25,12 @@ func (f *File) RemoveDecl(name string) *File {
 		}
 	}
 	return &file
+}
+
+type Import struct {
+	Name string `json:"name,omitempty"`
+	Path string `json:"path"`
+	Doc  string `json:"doc,omitempty"`
 }
 
 type TypeDecl struct {
@@ -80,7 +87,7 @@ func (d *Type) Get(key string) interface{} {
 type IdentType string
 
 type Field struct {
-	Name string
+	Name string `json:"name"`
 	Type Type   `json:"type"`
 	Tag  *Tag   `json:"tag,omitempty"`
 	Doc  string `json:"doc,omitempty"`

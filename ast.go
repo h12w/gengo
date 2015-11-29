@@ -6,7 +6,15 @@ import (
 )
 
 func (f *File) AST() *ast.File {
-	var decls []ast.Decl
+	imports := make([]ast.Spec, len(f.Imports))
+	for i := range f.Imports {
+		imports[i] = f.Imports[i].AST()
+	}
+	importDecl := &ast.GenDecl{
+		Tok:   token.IMPORT,
+		Specs: imports,
+	}
+	decls := []ast.Decl{importDecl}
 	for _, d := range f.TypeDecls {
 		decls = append(decls, d.AST())
 	}
@@ -14,6 +22,19 @@ func (f *File) AST() *ast.File {
 		Name:  &ast.Ident{Name: f.PackageName},
 		Decls: decls,
 	}
+}
+
+func (im *Import) AST() *ast.ImportSpec {
+	spec := &ast.ImportSpec{
+		Path: &ast.BasicLit{Kind: token.STRING, Value: `"` + im.Path + `"`},
+	}
+	if im.Name != "" {
+		spec.Name = &ast.Ident{Name: im.Name}
+	}
+	if im.Doc != "" {
+		spec.Comment = &ast.CommentGroup{List: []*ast.Comment{{Text: im.Doc}}}
+	}
+	return spec
 }
 
 func (d *TypeDecl) AST() ast.Decl {
