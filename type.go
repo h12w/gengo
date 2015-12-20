@@ -89,21 +89,19 @@ type IdentType string
 type Field struct {
 	Name string `json:"name"`
 	Type Type   `json:"type"`
-	Tag  *Tag   `json:"tag,omitempty"`
+	Tag  Tag    `json:"tag,omitempty"`
 	Doc  string `json:"doc,omitempty"`
 }
 
-type Tag struct {
-	Parts []*TagPart
-}
+type Tag []*TagPart
 
 func (t *Tag) String() string {
 	if t == nil {
 		return ""
 	}
-	ss := make([]string, len(t.Parts))
+	ss := make([]string, len(*t))
 	for i := range ss {
-		ss[i] = t.Parts[i].String()
+		ss[i] = (*t)[i].String()
 	}
 	return strings.Join(ss, " ")
 }
