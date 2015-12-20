@@ -67,7 +67,7 @@ type Type struct {
 	Kind   Kind                   `json:"kind"`
 	Ident  string                 `json:"ident,omitemtpy"`
 	Fields []*Field               `json:"fields,omitempty"`
-	Attrs  map[string]interface{} `json:"attr,omitempty"`
+	Attrs  map[string]interface{} `json:"attr,omitempty"` // Additional data that can be attached to a type
 }
 
 func (d *Type) Set(key string, value interface{}) {
@@ -130,9 +130,12 @@ func (p *TagPart) String() string {
 	return fmt.Sprintf(`%s:"%s"`, p.Encoding, strings.Join(segments, ","))
 }
 
-func (f *File) Fprint(w io.Writer) error {
-	astFile := f.AST()
-	return printer.Fprint(w, token.NewFileSet(), astFile)
+func (d *TypeDecl) Marshal(w io.Writer) error {
+	return printer.Fprint(w, token.NewFileSet(), d.AST())
+}
+
+func (f *File) Marshal(w io.Writer) error {
+	return printer.Fprint(w, token.NewFileSet(), f.AST())
 }
 
 func (f *File) JSON() string {
