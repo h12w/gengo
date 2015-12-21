@@ -21,9 +21,10 @@ func SnakeToLowerCamel(s string) string {
 }
 
 var Abbreviations = map[string]struct{}{
-	"cpi": struct{}{},
-	"gif": struct{}{},
-	"id":  struct{}{},
+	"cpi":  struct{}{},
+	"ecpm": struct{}{},
+	"gif":  struct{}{},
+	"id":   struct{}{},
 }
 
 func upperOrTitle(s string) string {
