@@ -25,6 +25,7 @@ var Abbreviations = map[string]struct{}{
 	"ecpm": struct{}{},
 	"gif":  struct{}{},
 	"id":   struct{}{},
+	"os":   struct{}{},
 }
 
 func upperOrTitle(s string) string {
