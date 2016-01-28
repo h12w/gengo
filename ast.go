@@ -66,9 +66,16 @@ func (t *Type) AST() ast.Expr {
 	return nil
 }
 
+func (f *Field) names() []*ast.Ident {
+	if f.Name == f.Type.Ident {
+		return nil
+	}
+	return []*ast.Ident{{Name: f.Name}}
+}
+
 func (f *Field) AST() *ast.Field {
 	return &ast.Field{
-		Names: []*ast.Ident{{Name: f.Name}},
+		Names: f.names(),
 		Type:  f.Type.AST(),
 		Tag:   tag(f.Tag.String()),
 	}
