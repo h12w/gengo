@@ -70,7 +70,7 @@ func (t *Type) AST() ast.Expr {
 }
 
 func (f *Field) names() []*ast.Ident {
-	if f.Name == f.Type.Ident {
+	if f.Type.Kind == StructKind && f.Name == f.Type.Ident {
 		return nil
 	}
 	return []*ast.Ident{{Name: f.Name}}
