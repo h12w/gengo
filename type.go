@@ -10,11 +10,12 @@ import (
 )
 
 type File struct {
-	PackageName string      `json:"package_name,omitempty"`
-	Imports     []*Import   `json:"imports,omitempty"`
-	TypeDecls   []*TypeDecl `json:"type_decls,omitempty"`
-	Doc         string      `json:"doc,omitempty"`
+	PackageName string    `json:"package_name,omitempty"`
+	Imports     []*Import `json:"imports,omitempty"`
+	TypeDecls   TypeDecls `json:"type_decls,omitempty"`
+	Doc         string    `json:"doc,omitempty"`
 }
+type TypeDecls []*TypeDecl
 
 func (f *File) RemoveDecl(name string) *File {
 	file := *f
@@ -66,9 +67,11 @@ func (k Kind) MarshalText() ([]byte, error) {
 type Type struct {
 	Kind   Kind                   `json:"kind"`
 	Ident  string                 `json:"ident,omitemtpy"`
-	Fields []*Field               `json:"fields,omitempty"`
+	Fields Fields                 `json:"fields,omitempty"`
 	Attrs  map[string]interface{} `json:"attr,omitempty"` // Additional data that can be attached to a type
 }
+
+type Fields []*Field
 
 func (d *Type) Set(key string, value interface{}) {
 	if d.Attrs == nil {
@@ -140,3 +143,11 @@ func (f *File) JSON() string {
 	buf, _ := json.MarshalIndent(f, "", "    ")
 	return string(buf)
 }
+
+func (a TypeDecls) Len() int           { return len(a) }
+func (a TypeDecls) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
+func (a TypeDecls) Less(i, j int) bool { return a[i].Name < a[j].Name }
+
+func (a Fields) Len() int           { return len(a) }
+func (a Fields) Swap(i, j int)      { a[i], a[j] = a[j], a[i] }
+func (a Fields) Less(i, j int) bool { return a[i].Name < a[j].Name }
