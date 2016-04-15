@@ -41,12 +41,16 @@ func (im *Import) AST() *ast.ImportSpec {
 }
 
 func (d *TypeDecl) AST() ast.Decl {
-	return &ast.GenDecl{Tok: token.TYPE, Specs: []ast.Spec{
+	decl := &ast.GenDecl{Tok: token.TYPE, Specs: []ast.Spec{
 		&ast.TypeSpec{
 			Name: &ast.Ident{Name: d.Name},
 			Type: d.Type.AST(),
 		},
 	}}
+	if d.Doc != "" {
+		decl.Doc = &ast.CommentGroup{List: []*ast.Comment{{Text: "// " + d.Doc}}}
+	}
+	return decl
 }
 
 func (t *Type) AST() ast.Expr {
