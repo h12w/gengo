@@ -40,6 +40,12 @@ type TypeDecl struct {
 	Doc  string `json:"doc,omitempty"`
 }
 
+func (d *TypeDecl) WithName(name string) *TypeDecl {
+	decl := *d
+	decl.Name = name
+	return &decl
+}
+
 type Kind int
 
 const (
