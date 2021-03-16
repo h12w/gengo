@@ -1,7 +1,8 @@
 gengo: Simple Go Code Generation
 ================================
 
-* AST generation
-* Go struct code generation
-* Field tags
-* Idiomatic and customizable naming conventions
+`gengo` provides a serialisable representation of `go/ast`, which can be transformed into Go AST objects and then Go code.
+
+* Imports
+* Go struct type with field tags
+* Idiomatic and customisable naming conventions
