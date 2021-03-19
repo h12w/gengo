@@ -81,10 +81,15 @@ func (f *Field) names() []*ast.Ident {
 }
 
 func (f *Field) AST() *ast.Field {
+	var comment *ast.CommentGroup
+	if f.Doc != "" {
+		comment = &ast.CommentGroup{List: []*ast.Comment{{Text: "// " + f.Doc}}}
+	}
 	return &ast.Field{
-		Names: f.names(),
-		Type:  f.Type.AST(),
-		Tag:   tag(f.Tag.String()),
+		Names:   f.names(),
+		Type:    f.Type.AST(),
+		Tag:     tag(f.Tag.String()),
+		Comment: comment,
 	}
 }
 
